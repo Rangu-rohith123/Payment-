@@ -1,0 +1,78 @@
+class DigitalWallet:
+    def __init__(self):
+        self.balance = 1000.0  # Initial balance
+        self.transaction_history = []
+
+    def display_balance(self):
+        print(f"\nCurrent Balance: ${self.balance:.2f}\n")
+
+    def send_money(self, recipient, amount):
+        if amount <= 0:
+            print("Amount must be greater than 0.")
+        elif amount > self.balance:
+            print("Insufficient balance.")
+        else:
+            self.balance -= amount
+            self.transaction_history.append(f"Sent ${amount:.2f} to {recipient}")
+            print(f"Successfully sent ${amount:.2f} to {recipient}.")
+
+    def request_money(self, sender, amount):
+        if amount <= 0:
+            print("Amount must be greater than 0.")
+        else:
+            self.balance += amount
+            self.transaction_history.append(f"Requested ${amount:.2f} from {sender}")
+            print(f"Successfully requested ${amount:.2f} from {sender}.")
+
+    def view_transaction_history(self):
+        print("\nTransaction History:")
+        if not self.transaction_history:
+            print("No transactions yet.")
+        else:
+            for transaction in self.transaction_history:
+                print(f"- {transaction}")
+        print()
+
+def main():
+    wallet = DigitalWallet()
+
+    while True:
+        print("\n=== Digital Wallet ===")
+        print("1. View Balance")
+        print("2. Send Money")
+        print("3. Request Money")
+        print("4. View Transaction History")
+        print("5. Exit")
+
+        try:
+            choice = int(input("Choose an option: "))
+        except ValueError:
+            print("Invalid input. Please enter a number between 1 and 5.")
+            continue
+
+        if choice == 1:
+            wallet.display_balance()
+        elif choice == 2:
+            recipient = input("Enter recipient's name: ")
+            try:
+                amount = float(input("Enter amount to send: "))
+                wallet.send_money(recipient, amount)
+            except ValueError:
+                print("Invalid amount. Please enter a valid number.")
+        elif choice == 3:
+            sender = input("Enter sender's name: ")
+            try:
+                amount = float(input("Enter amount to request: "))
+                wallet.request_money(sender, amount)
+            except ValueError:
+                print("Invalid amount. Please enter a valid number.")
+        elif choice == 4:
+            wallet.view_transaction_history()
+        elif choice == 5:
+            print("Exiting the digital wallet. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please choose a number between 1 and 5.")
+
+if __name__ == "__main__":
+    main()
